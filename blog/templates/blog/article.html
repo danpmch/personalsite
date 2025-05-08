@@ -1,0 +1,22 @@
+{% load blog_markdown %}
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ article.title }}</title>
+    </head>
+    <body>
+        <a href="{% url 'index' %}">[Home]</a>
+        <a href="{% url 'topic' topic_id=article.topic.id %}">[{{ article.topic.name }}]</a>
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.body | markdown }}</p>
+        <div>
+            {% if previous %}
+            <a href="{% url 'article' article_id=previous.id %}">Previous</a>
+            {% endif %}
+            {% if next %}
+            <a href="{% url 'article' article_id=next.id %}">Next</a>
+            {% endif %}
+        </div>
+    </body>
+</html>

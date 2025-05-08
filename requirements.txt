@@ -1,0 +1,7 @@
+Django == 5.2.1
+flake8
+black
+psycopg >= 3.1.8
+django-markdownx
+markdown
+dotenv
