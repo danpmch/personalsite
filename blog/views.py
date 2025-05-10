@@ -1,15 +1,22 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from .models import Topic, Article
 
 
+# TODO: this isn't going to scale at all
+def sidebar():
+    return [
+        (t, t.article_set.all().order_by("published"))
+        for t in Topic.objects.all().order_by("name")
+    ]
+
+
 def index(request):
-    topics = Topic.objects.all()
     return render(
         request,
         "blog/index.html",
         context={
-            "topics": topics,
+            "sidebar": sidebar(),
         }
     )
 
@@ -24,6 +31,7 @@ def topic(request, topic_id):
         request,
         "blog/topic.html",
         context={
+            "sidebar": sidebar(),
             "topic": topic,
             "articles": topic.article_set.all(),
         }
@@ -54,6 +62,7 @@ def article(request, article_id):
         request,
         "blog/article.html",
         context={
+            "sidebar": sidebar(),
             "article": article,
             "next": next_article,
             "previous": previous_article,
